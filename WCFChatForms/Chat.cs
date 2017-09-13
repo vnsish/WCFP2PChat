@@ -5,6 +5,7 @@ using System.Text;
 using System.ServiceModel;
 using System.ServiceModel.Description;
 using System.Threading.Tasks;
+using System.ServiceModel.PeerResolvers;
 
 namespace WCFChatForms
 {
@@ -23,10 +24,15 @@ namespace WCFChatForms
 
         public void StartService()
         {
+            var binding = new NetPeerTcpBinding();
+            binding.Security.Mode = SecurityMode.None;
+            binding.Resolver.Mode = PeerResolverMode.Auto;
+
+            var endpoint = new ServiceEndpoint(ContractDescription.GetContract(typeof(IChatService)), binding, new EndpointAddress("net.p2p://P2PChatMesh/chat"));
 
             Host = new ChatService(form);
 
-            factory = new DuplexChannelFactory<IChatService>(new InstanceContext(Host), "P2PChatEndpointC");
+            factory = new DuplexChannelFactory<IChatService>(new InstanceContext(Host), endpoint);
 
             var channel = factory.CreateChannel();
 

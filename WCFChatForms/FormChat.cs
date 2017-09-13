@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.ServiceModel;
+using System.ServiceModel.PeerResolvers;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,6 +19,7 @@ namespace WCFChatForms
         public string text { get { return txtChat.Text; } set { txtChat.Text = value; } }
         Chat ch;
         string username;
+        CustomPeerResolverService cprs = new CustomPeerResolverService();
 
         public FormChat(string usr)
         {
@@ -24,6 +27,9 @@ namespace WCFChatForms
             ch = new Chat(this);
             ch.Run();
             InitializeComponent();
+            var customResolver = new ServiceHost(cprs);
+            cprs.Open();
+            customResolver.Open();
             Thread.Sleep(5000);
             ch.Channel.sysMessage(username + " entrou na sala.");
         }
