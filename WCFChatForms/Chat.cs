@@ -32,7 +32,7 @@ namespace WCFChatForms
 
             Host = new ChatService(form);
 
-            factory = new DuplexChannelFactory<IChatService>(new InstanceContext(Host), endpoint);
+            factory = new DuplexChannelFactory<IChatService>(new InstanceContext(Host), "P2PChatEndpointC");
 
             var channel = factory.CreateChannel();
 
