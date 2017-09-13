@@ -23,17 +23,10 @@ namespace WCFChatForms
 
         public void StartService()
         {
-            var binding = new NetPeerTcpBinding();
-            binding.Security.Mode = SecurityMode.None;
-
-            var endpoint = new ServiceEndpoint(
-                ContractDescription.GetContract(typeof(IChatService)),
-                binding,
-                new EndpointAddress("net.p2p://P2PChat"));
 
             Host = new ChatService(form);
 
-            factory = new DuplexChannelFactory<IChatService>(new InstanceContext(Host), endpoint);
+            factory = new DuplexChannelFactory<IChatService>(new InstanceContext(Host), "P2PChatEndpointC");
 
             var channel = factory.CreateChannel();
 
