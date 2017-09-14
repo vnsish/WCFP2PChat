@@ -16,6 +16,7 @@ namespace WCFChatForms
 
         FormChat form;
 
+
         public Chat(FormChat chat)
         {
             form = chat;
@@ -25,13 +26,12 @@ namespace WCFChatForms
         {
 
             Host = new ChatService(form);
-
+         
             factory = new DuplexChannelFactory<IChatService>(new InstanceContext(Host), "P2PChatEndpointC");
 
             var channel = factory.CreateChannel();
 
             ((ICommunicationObject)channel).Open();
-
 
             Channel = channel;
 
